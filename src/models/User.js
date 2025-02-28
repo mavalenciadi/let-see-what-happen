@@ -6,6 +6,7 @@ const User = sequelize.define("User", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
     primaryKey: true,
   },
   name: {
@@ -23,6 +24,11 @@ const User = sequelize.define("User", {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  role: {
+    type: DataTypes.ENUM("admin", "user"),
+    allowNull: false,
+    defaultValue: "user",
   }
 },{
     hooks: {
@@ -33,8 +39,14 @@ const User = sequelize.define("User", {
   }
 });
 
-User.prototype.comparePassword = function () {
+User.prototype.comparePassword = function (password) {
   return bcrypt.compare(password, this.password);  
 }
+
+User.prototype.toJSON = function () {
+  let values = { ...this.get() };
+  delete values.password; // Oculta la contraseña
+  return values;
+};
 
 module.exports = User;

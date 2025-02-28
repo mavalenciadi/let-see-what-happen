@@ -2,9 +2,12 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-const taskRoutes = require("./routes/taskRoutes");
-const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const parkingRoutes = require("./routes/parkingRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
+
 const sequelize = require("./config/database");
 
 // Cargar variables de entorno desde .env
@@ -17,7 +20,9 @@ app.use(cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/tasks", taskRoutes);
+app.use("/api/parkings", parkingRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/services", serviceRoutes);
 
 // Puerto configurable desde .env o por defecto 5000
 const PORT = process.env.PORT || 5000;
